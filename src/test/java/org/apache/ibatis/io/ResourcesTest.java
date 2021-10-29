@@ -31,6 +31,10 @@ import org.apache.ibatis.BaseDataTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+/**
+ * 使用Resources+ClassLoaderWrapper封装对文件读取
+ * 原理：使用getClass().getClassLoader()和Thread.currentThread().getContextClassLoader()和ClassLoader.getSystemClassLoader()读取文件
+ */
 class ResourcesTest extends BaseDataTest {
 
   private static final ClassLoader CLASS_LOADER = ResourcesTest.class.getClassLoader();
