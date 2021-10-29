@@ -142,6 +142,7 @@ public class XPathParser {
 
   public String evalString(Object root, String expression) {
     String result = (String) evaluate(expression, root, XPathConstants.STRING);
+    // 取到node节点值后，使用PropertyParser解析，把variables传过去作为取值源
     result = PropertyParser.parse(result, variables);
     return result;
   }

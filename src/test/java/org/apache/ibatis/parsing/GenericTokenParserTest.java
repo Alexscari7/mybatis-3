@@ -18,6 +18,7 @@ package org.apache.ibatis.parsing;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,6 +28,9 @@ import org.junit.jupiter.api.Test;
 
 class GenericTokenParserTest {
 
+  /**
+   * 这里的VariableTokenHandler简单实现，相当于直接根据key从内部的map取值
+   */
   public static class VariableTokenHandler implements TokenHandler {
     private Map<String, String> variables = new HashMap<>();
 
@@ -42,6 +46,7 @@ class GenericTokenParserTest {
 
   @Test
   void shouldDemonstrateGenericTokenReplacement() {
+    // 这种写法，在对象完全初始化之前，调用对象方法
     GenericTokenParser parser = new GenericTokenParser("${", "}", new VariableTokenHandler(new HashMap<String, String>() {
       {
         put("first_name", "James");
@@ -52,6 +57,7 @@ class GenericTokenParserTest {
       }
     }));
 
+    assertEquals("Hiya", parser.parse("${var{with\\}brace\\}"));
     assertEquals("James T Kirk reporting.", parser.parse("${first_name} ${initial} ${last_name} reporting."));
     assertEquals("Hello captain James T Kirk", parser.parse("Hello captain ${first_name} ${initial} ${last_name}"));
     assertEquals("James T Kirk", parser.parse("${first_name} ${initial} ${last_name}"));

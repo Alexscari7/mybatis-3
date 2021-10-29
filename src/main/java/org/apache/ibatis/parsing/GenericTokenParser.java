@@ -17,6 +17,7 @@ package org.apache.ibatis.parsing;
 
 /**
  * @author Clinton Begin
+ * 解析整段文本，并将openToken+key+clseToken的目标交给handler进行解析
  */
 public class GenericTokenParser {
 

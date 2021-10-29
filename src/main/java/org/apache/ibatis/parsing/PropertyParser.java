@@ -20,6 +20,7 @@ import java.util.Properties;
 /**
  * @author Clinton Begin
  * @author Kazuki Shimizu
+ * 使用GenericTokenParser和VariableTokenHandler，解析整段文本中${}的目标
  */
 public class PropertyParser {
 
@@ -52,10 +53,14 @@ public class PropertyParser {
 
   public static String parse(String string, Properties variables) {
     VariableTokenHandler handler = new VariableTokenHandler(variables);
+    // 使用${}作为解析器目标，并使用handler对目标进行解析
     GenericTokenParser parser = new GenericTokenParser("${", "}", handler);
     return parser.parse(string);
   }
 
+  /**
+   * token解析:优先返回variables值 >  返回默认值 > 返回${content}
+   */
   private static class VariableTokenHandler implements TokenHandler {
     private final Properties variables;
     private final boolean enableDefaultValue;
