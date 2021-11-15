@@ -27,6 +27,8 @@ import org.apache.ibatis.reflection.invoker.MethodInvoker;
 import org.apache.ibatis.reflection.property.PropertyTokenizer;
 
 /**
+ * 类的元数据，基于 Reflector 和 PropertyTokenizer，提供对类反射结构的一些操作，比如根据属性组合名称找到真正属性名
+ * 和属性类型，同时将类的属性类相关反射体加载到工厂中去
  * @author Clinton Begin
  */
 public class MetaClass {

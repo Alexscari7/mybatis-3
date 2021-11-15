@@ -45,6 +45,7 @@ import org.apache.ibatis.util.MapUtil;
 /**
  * This class represents a cached set of class definition information that
  * allows for easy mapping between property names and getter/setter methods.
+ * 定义类的反射结构体，包含目标类、可读写属性、getter/setter方法等
  *
  * @author Clinton Begin
  */
@@ -79,6 +80,14 @@ public class Reflector {
   }
 
   private void addDefaultConstructor(Class<?> clazz) {
+    // 获取无参构造器
+    /*Constructor<?> defaultConstructor = null;
+    try {
+      defaultConstructor = clazz.getConstructor();
+    } catch (NoSuchMethodException e) {
+      // ignore
+    }
+    this.defaultConstructor = defaultConstructor;*/
     Constructor<?>[] constructors = clazz.getDeclaredConstructors();
     Arrays.stream(constructors).filter(constructor -> constructor.getParameterTypes().length == 0)
       .findAny().ifPresent(constructor -> this.defaultConstructor = constructor);
@@ -268,6 +277,7 @@ public class Reflector {
    * declared in this class and any superclass.
    * We use this method, instead of the simpler <code>Class.getMethods()</code>,
    * because we want to look for private methods as well.
+   * 这个方法返回包含类的所有方法的数组，包括私有方法和继承方法
    *
    * @param clazz The class
    * @return An array containing all methods in this class
@@ -308,6 +318,7 @@ public class Reflector {
   }
 
   private String getSignature(Method method) {
+    // 利用Java的方法重载特性来描述方法的唯一标识，ReturnType#MethodName:ParameterType1,ParameterType2
     StringBuilder sb = new StringBuilder();
     Class<?> returnType = method.getReturnType();
     if (returnType != null) {

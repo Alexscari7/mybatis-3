@@ -18,6 +18,8 @@ package org.apache.ibatis.reflection.property;
 import java.util.Iterator;
 
 /**
+ * 分词器，比如将order[0].item[0].name分为order[0]、item[0]、name三段。
+ * 继承Iterator，可通过hasNext()、next()方法遍历
  * @author Clinton Begin
  */
 public class PropertyTokenizer implements Iterator<PropertyTokenizer> {
