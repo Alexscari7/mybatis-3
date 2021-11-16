@@ -71,7 +71,7 @@ class MetaObjectTest {
     meta.setValue("richMap.key", "foo");
     assertEquals("foo", meta.getValue("richMap.key"));
   }
-
+  // 这两种方式虽然代码走向不一样，但实际经过的操作步骤是一样的
   @Test
   void shouldGetAndSetMapPairUsingArraySyntax() {
     RichType rich = new RichType();

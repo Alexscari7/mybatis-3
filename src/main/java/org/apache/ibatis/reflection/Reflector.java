@@ -68,6 +68,7 @@ public class Reflector {
     Method[] classMethods = getClassMethods(clazz);
     addGetMethods(classMethods);
     addSetMethods(classMethods);
+    // 对于没有getter/setter方法的属性，添加自定义方法
     addFields(clazz);
     readablePropertyNames = getMethods.keySet().toArray(new String[0]);
     writablePropertyNames = setMethods.keySet().toArray(new String[0]);

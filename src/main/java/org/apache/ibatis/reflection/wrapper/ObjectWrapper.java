@@ -22,6 +22,7 @@ import org.apache.ibatis.reflection.factory.ObjectFactory;
 import org.apache.ibatis.reflection.property.PropertyTokenizer;
 
 /**
+ * 对Object进行增强，提供基础get/set值的方法
  * @author Clinton Begin
  */
 public interface ObjectWrapper {

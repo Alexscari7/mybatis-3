@@ -28,6 +28,7 @@ import org.apache.ibatis.reflection.wrapper.ObjectWrapper;
 import org.apache.ibatis.reflection.wrapper.ObjectWrapperFactory;
 
 /**
+ * 在ObjectWrapper外面包装一层，能处理分词属性，对外提供更加强大的功能，且屏蔽了对象和集合的差异
  * @author Clinton Begin
  */
 public class MetaObject {
@@ -109,23 +110,26 @@ public class MetaObject {
     return objectWrapper.hasGetter(name);
   }
 
+  // 获取分词属性的值，需要一层层获取
   public Object getValue(String name) {
     PropertyTokenizer prop = new PropertyTokenizer(name);
-    if (prop.hasNext()) {
+    if (prop.hasNext()) { // 有后续分词时，先获取后续分词的MetaObject
       MetaObject metaValue = metaObjectForProperty(prop.getIndexedName());
       if (metaValue == SystemMetaObject.NULL_META_OBJECT) {
         return null;
       } else {
         return metaValue.getValue(prop.getChildren());
       }
-    } else {
+    } else {  // 取到最终分支属性的值返回
       return objectWrapper.get(prop);
     }
   }
 
+  // 设置分词属性的值
   public void setValue(String name, Object value) {
     PropertyTokenizer prop = new PropertyTokenizer(name);
-    if (prop.hasNext()) {
+    if (prop.hasNext()) { // 有后续分词时，向后遍历
+      // 如果当前分词Object为空，需要先初始化，然后继续迭代
       MetaObject metaValue = metaObjectForProperty(prop.getIndexedName());
       if (metaValue == SystemMetaObject.NULL_META_OBJECT) {
         if (value == null) {
@@ -136,7 +140,7 @@ public class MetaObject {
         }
       }
       metaValue.setValue(prop.getChildren(), value);
-    } else {
+    } else {  // 达到最终分词，设置值
       objectWrapper.set(prop, value);
     }
   }
