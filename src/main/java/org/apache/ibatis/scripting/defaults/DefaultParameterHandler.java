@@ -83,6 +83,8 @@ public class DefaultParameterHandler implements ParameterHandler {
           if (value == null && jdbcType == null) {
             jdbcType = configuration.getJdbcTypeForNull();
           }
+          // 这就是为什么xml文件中oracle插入字段值为null时报错的原因，value=null，jdbcType默认也为null，且oracle数据库引擎不允许通过Type.OTHER设置空值
+          // 解决方案是在xml中设置jdbcType
           try {
             typeHandler.setParameter(ps, i + 1, value, jdbcType);
           } catch (TypeException | SQLException e) {
